@@ -1,6 +1,6 @@
 <template>
   <sidebar>
-    <h1 class="text-center">Hi Admin!</h1>
+    <h1 class="text-center">Reports Page</h1>
   </sidebar>
 </template>
 

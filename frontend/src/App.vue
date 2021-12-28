@@ -3,7 +3,7 @@
     <div class="col col-md-4 col-lg-2">
       <sidebar v-if="isNotLogin" />
     </div>
-    <div class="col col-md-8 col-lg-10">
+    <div :class="isNotLogin ? 'col col-md-8 col-lg-10' : ''">
       <router-view />
     </div>
   </div>

@@ -1,23 +1,18 @@
 <template>
   <Card>
     <template v-slot:login>
-      <h5 class="card-title">Admin Login</h5>
+      <h5 class="card-title">New Employee</h5>
       <FormTemplate
         :action="action"
         :method="method"
         class="form-group d-flex justify-content-center"
       >
         <div class="form-group">
-          <label for="username">Username</label>
-          <input type="text" class="form-control" name="username" required />
+          <label for="name">Name</label>
+          <input type="text" class="form-control" name="nama" required />
           <br />
-          <label for="password">Password</label>
-          <input
-            type="password"
-            class="form-control"
-            name="password"
-            required
-          />
+          <label for="shift">Shift</label>
+          <input type="text" class="form-control" name="shift" required />
           <br />
           <button type="submit" class="form-control">Login</button>
         </div>

@@ -1,18 +1,14 @@
 <template>
-  <div class="card">
+  <div class="card mx-auto text-center">
     <div class="card-body">
       <slot name="login"></slot>
       <slot name="alert"></slot>
     </div>
-    </div>
+  </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
-<style>
-
-</style>
+<style></style>

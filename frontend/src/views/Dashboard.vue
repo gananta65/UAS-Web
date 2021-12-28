@@ -1,17 +1,11 @@
 <template>
-  <sidebar>
-    <h1 class="text-center">Hi Admin!</h1>
-  </sidebar>
+  <div class="container">
+    <h1 class="text-center">Hi Admin!!</h1>
+  </div>
 </template>
 
 <script>
-import sidebar from '@/components/sidebar.vue'
-export default {
-  components: { sidebar },
-
-}
+export default {};
 </script>
 
-<style>
-
-</style>
+<style></style>

@@ -4,6 +4,7 @@ import Admin from '../views/Admin.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Employees from '../views/Employees.vue'
 import Reports from '../views/Reports.vue'
+import EmployeeForm from '../views/EmployeeForm.vue'
 
 const routes = [
   {
@@ -25,6 +26,11 @@ const routes = [
     path: '/employees',
     name: 'Employees',
     component: Employees
+  },
+  {
+    path: '/employees/new',
+    name: 'EmployeeForm',
+    component: EmployeeForm
   },
   {
     path: '/reports',

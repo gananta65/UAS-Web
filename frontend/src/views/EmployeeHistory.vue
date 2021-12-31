@@ -1,11 +1,7 @@
 <template>
   <TableTemplate>
-    <template v-slot:title> Employee's Data </template>
-    <template v-slot:button-add>
-      <router-link to="/employees/new" class="btn btn-outline-secondary mb-2"
-        >New Data</router-link
-      >
-    </template>
+    <template v-slot:title> Gananta's History </template>
+    <template v-slot:button-add> </template>
     <template v-slot:search>
       <label for="cari" class="form-label">Search :</label>
       <input type="text" class="form-control-sm mb-2" name="cari" id="cari" />
@@ -15,24 +11,28 @@
         <thead>
           <tr>
             <th>No</th>
-            <th>Name</th>
-            <th>Shift</th>
+            <th>Date/Time</th>
+            <th>Status</th>
+            <th>Reason</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>1</td>
-            <td>Gananta</td>
-            <td>Morning</td>
+            <td>15 Januari 2021</td>
+            <td>Late</td>
             <td>
-              <router-link to="/employees/edit" class="btn btn-outline-primary"
+              <input
+                type="text"
+                class="form-control-sm mb-2"
+                name="reason"
+                id="reason"
+              />
+            </td>
+            <td>
+              <router-link to="/employees/new" class="btn btn-outline-primary"
                 >Edit</router-link
-              >
-              <router-link
-                to="/employees/history"
-                class="btn btn-outline-success"
-                >History</router-link
               >
             </td>
           </tr>

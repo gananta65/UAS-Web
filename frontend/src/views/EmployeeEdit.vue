@@ -1,7 +1,7 @@
 <template>
   <Card>
     <template v-slot:login>
-      <h5 class="card-title">New Employee</h5>
+      <h5 class="card-title">Edit Employee</h5>
       <FormTemplate
         :action="action"
         :method="method"
@@ -14,7 +14,7 @@
           <label for="shift">Shift</label>
           <input type="text" class="form-control" name="shift" required />
           <br />
-          <button type="submit" class="form-control">Submit</button>
+          <button type="submit" class="form-control">Edit</button>
         </div>
       </FormTemplate>
     </template>

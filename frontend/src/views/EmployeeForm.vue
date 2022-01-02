@@ -2,11 +2,8 @@
   <Card>
     <template v-slot:login>
       <h5 class="card-title">New Employee</h5>
-      <FormTemplate
-        :action="action"
-        :method="method"
-        class="form-group d-flex justify-content-center"
-      >
+
+      <form class="form-group d-flex justify-content-center">
         <div class="form-group">
           <label for="name">Name</label>
           <input type="text" class="form-control" name="nama" required />
@@ -16,17 +13,16 @@
           <br />
           <button type="submit" class="form-control">Submit</button>
         </div>
-      </FormTemplate>
+      </form>
     </template>
   </Card>
 </template>
 
 <script>
 import Card from "@/components/Card.vue";
-import FormTemplate from "@/components/FormTemplate.vue";
 
 export default {
-  components: { Card, FormTemplate },
+  components: { Card },
 };
 </script>
 

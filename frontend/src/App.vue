@@ -11,12 +11,16 @@
 
 <script>
 import Sidebar from "@/components/Sidebar.vue";
+import axios from "axios";
 export default {
   components: { Sidebar },
   computed: {
     isNotLogin() {
       return this.$route.path !== "/admin" && this.$route.path !== "/";
     },
+  },
+  mounted() {
+    axios;
   },
 };
 </script>

@@ -2,7 +2,8 @@
 SQLyog Ultimate v10.42 
 MySQL - 5.5.5-10.4.11-MariaDB : Database - absen
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -41,7 +42,7 @@ insert  into `absensi`(`id_absensi`,`id_karyawan`,`tanggal`,`jam`,`reason`,`stat
 DROP TABLE IF EXISTS `admin`;
 
 CREATE TABLE `admin` (
-  `id_admin` int(10) NOT NULL,
+  `id_admin` int(11) NOT NULL,
   `nama_admin` varchar(50) DEFAULT NULL,
   `username` varchar(20) DEFAULT NULL,
   `password` varchar(20) DEFAULT NULL,

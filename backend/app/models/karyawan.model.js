@@ -1,7 +1,7 @@
 const sql = require("./db.js");
 
 // constructor
-const Karyawan = function(karyawan) {
+const Karyawan = function (karyawan) {
   this.id_karyawan = karyawan.id_karyawan;
   this.nama_karyawan = karyawan.nama_karyawan;
   this.shift = karyawan.shift;
@@ -21,7 +21,7 @@ Karyawan.create = (newKaryawan, result) => {
 };
 
 Karyawan.findById = (id, result) => {
-  sql.query(`SELECT * FROM karyawan WHERE id = ${id}`, (err, res) => {
+  sql.query(`SELECT * FROM karyawan WHERE id_karyawan = ${id}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -58,7 +58,7 @@ Karyawan.getAll = (id_admin, result) => {
   });
 };
 
-Karyawan.getAllPublished = result => {
+Karyawan.getAllPublished = (result) => {
   sql.query("SELECT * FROM karyawan WHERE published=true", (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -73,8 +73,9 @@ Karyawan.getAllPublished = result => {
 
 Karyawan.updateById = (id, karyawan, result) => {
   sql.query(
-    "UPDATE karyawan SET nama_karyawan = ?, shift = ? WHERE id_karyawan = " + id,
-    [karyawan.nama_karyawan, karyawan.shift,],
+    "UPDATE karyawan SET nama_karyawan = ?, shift = ? WHERE id_karyawan = " +
+      id,
+    [karyawan.nama_karyawan, karyawan.shift],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -107,13 +108,12 @@ Karyawan.remove = (id, result) => {
       return;
     }
 
-    
     console.log("deleted karyawan with id: ", id);
     result(null, res);
   });
 };
 
-Karyawan.removeAll = result => {
+Karyawan.removeAll = (result) => {
   sql.query("DELETE FROM karyawan", (err, res) => {
     if (err) {
       console.log("error: ", err);

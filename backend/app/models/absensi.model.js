@@ -24,7 +24,7 @@ Absensi.create = (newAbsensi, result) => {
 };
 
 Absensi.findById = (id, result) => {
-  sql.query(`SELECT * FROM absensi WHERE id = ${id}`, (err, res) => {
+  sql.query(`SELECT * FROM absensi WHERE id_karyawan = ${id}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -43,9 +43,8 @@ Absensi.findById = (id, result) => {
 };
 
 Absensi.findByDate = (id, result) => {
-  let date = new Date().toISOString().slice(0, 10);
   sql.query(
-    `SELECT * FROM absensi WHERE id_karyawan = ${id} AND tanggal = ${date}`,
+    `SELECT COUNT(*) AS count FROM absensi WHERE id_karyawan = ${id} AND tanggal = CURDATE()`,
     (err, res) => {
       if (err) {
         console.log("error: ", err);

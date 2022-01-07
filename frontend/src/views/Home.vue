@@ -55,33 +55,7 @@ export default {
       var today = new Date();
       return today;
     },
-    async isDoubleAttended() {
-      try {
-        const res = await AttendanceServices.getByDate(`${id}`);
-        const result = {
-          status: res.status + "-" + res.statusText,
-          headers: res.headers,
-          data: res.data,
-        };
-        // const result = {
-        //   data: res.data,
-        //   status: res.status,
-        //   statusText: res.statusText,
-        //   headers: res.headers,
-        //   config: res.config,
-        // };
-        this.getResult = this.fortmatResponse(result);
-
-        this.AttendanceSuccess(result.data.nama_karyawan, result.data.shift);
-        console.log(this.isDoubleAttended());
-        this.id = "";
-      } catch (err) {
-        this.getResult = this.fortmatResponse(err.response?.data) || err;
-        this.AttendanceFailed();
-        console.log(err);
-        this.id = "";
-      }
-    },
+    isDoubleAttended() {},
     timeFormat(time) {
       var p;
       p = `${time.getHours()}:${time.getMinutes()}`;
@@ -98,6 +72,11 @@ export default {
     AttendanceFailed() {
       swal({
         text: `Employee with id ${this.id} not found`,
+      });
+    },
+    AttendanceExist() {
+      swal({
+        text: `Employee with id ${this.id} already Attended`,
       });
     },
     AttendanceSuccess(name, shift) {
@@ -147,8 +126,6 @@ export default {
         try {
           const res = await EmployeeServices.get(`${id}`);
           const result = {
-            status: res.status + "-" + res.statusText,
-            headers: res.headers,
             data: res.data,
           };
           // const result = {
@@ -158,15 +135,14 @@ export default {
           //   headers: res.headers,
           //   config: res.config,
           // };
-          this.getResult = this.fortmatResponse(result);
-
           this.AttendanceSuccess(result.data.nama_karyawan, result.data.shift);
-          console.log(this.isDoubleAttended());
           this.id = "";
         } catch (err) {
           this.getResult = this.fortmatResponse(err.response?.data) || err;
+          if (err.response && err.response.status === 404) {
+            console.clear();
+          }
           this.AttendanceFailed();
-          console.log(err);
           this.id = "";
         }
       }

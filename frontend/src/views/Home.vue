@@ -29,7 +29,7 @@
 
 <script>
 import Card from "@/components/Card.vue";
-import AttendanceServices from "../services/AttendanceServices";
+import EmployeeServices from "../services/EmployeeServices.js";
 import swal from "sweetalert";
 
 export default {
@@ -51,6 +51,10 @@ export default {
     fortmatResponse(res) {
       return JSON.stringify(res, null, 2);
     },
+    now() {
+      var today = new Date();
+      return today;
+    },
     onlyNumber($event) {
       //console.log($event.keyCode); //keyCodes value
       let keyCode = $event.keyCode ? $event.keyCode : $event.which;
@@ -59,38 +63,57 @@ export default {
         $event.preventDefault();
       }
     },
-    loginFail() {
+    AttendanceFailed() {
       swal({
-        text: `Sorry, we have problems right now!`,
+        text: `Employee with id ${this.id} not found`,
       });
     },
-    loginSuccess() {
-      swal({
-        text: `Attendance for ${this.id} recorded at time. You are late!`,
-      });
+    AttendanceSuccess(id, shift) {
+      var start = new Date();
+      var end = new Date();
+      if (shift == "malam") {
+        start.setHours(19, 0, 0);
+        end.setHours(20, 0, 0);
+        if (this.now() < start) {
+          swal({
+            title: "On Time!",
+            text: `You Attended at ${this.now()}!`,
+            icon: "success",
+            button: "Okay!",
+          });
+        } else {
+          swal({
+            title: "Late!",
+            text: `"You Attended at ${this.now()}!"`,
+            icon: "warning",
+            button: "Okay!",
+          });
+        }
+      } else {
+        start.setHours(7, 0, 0);
+        end.setHours(13, 0, 0);
+        if (this.now() < start) {
+          swal({
+            title: "On Time!",
+            text: `You Attended at ${this.now()}!`,
+            icon: "success",
+            button: "Okay!",
+          });
+        } else {
+          swal({
+            title: "Late!",
+            text: `"You Attended at ${this.now()}!"`,
+            icon: "warning",
+            button: "Okay!",
+          });
+        }
+      }
     },
-    submitForm() {
-      axios
-        .post("api/users", {
-          id: this.id,
-        })
-        .then((response) => {
-          console.log(response);
-          console.log("berhasil dijalankan!");
-          this.id = "";
-        })
-        .catch((error) => {
-          console.log(error);
-          console.log("gagal!");
-          this.loginFail();
-          this.id = "";
-        });
-    },
-    async getDataById() {
-      const id = this.$refs.get_id.value;
+    async submitForm() {
+      const id = this.id;
       if (id) {
         try {
-          const res = await http.get(`/${id}`);
+          const res = await EmployeeServices.get(`${id}`);
           const result = {
             status: res.status + "-" + res.statusText,
             headers: res.headers,
@@ -104,8 +127,14 @@ export default {
           //   config: res.config,
           // };
           this.getResult = this.fortmatResponse(result);
+
+          this.AttendanceSuccess(result.data.id_karyawan, result.data.shift);
+          console.log(this.getTime());
+          this.id = "";
         } catch (err) {
           this.getResult = this.fortmatResponse(err.response?.data) || err;
+          console.log(err);
+          this.id = "";
         }
       }
     },

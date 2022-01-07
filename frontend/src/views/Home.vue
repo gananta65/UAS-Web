@@ -38,11 +38,10 @@ export default {
     return {
       id: "",
       attendance: {
-        id_absensi: null,
-        id_karyawan: null,
-        tanggal: null,
+        id_karyawan: "",
+        tanggal: "",
         jam: "",
-        reason: null,
+        reason: "",
         status: "",
       },
     };
@@ -68,7 +67,7 @@ export default {
         text: `Employee with id ${this.id} not found`,
       });
     },
-    AttendanceSuccess(id, shift) {
+    AttendanceSuccess(name, shift) {
       var start = new Date();
       var end = new Date();
       if (shift == "malam") {
@@ -77,14 +76,14 @@ export default {
         if (this.now() < start) {
           swal({
             title: "On Time!",
-            text: `You Attended at ${this.now()}!`,
+            text: `${name} Attended at ${this.now()}!`,
             icon: "success",
             button: "Okay!",
           });
         } else {
           swal({
             title: "Late!",
-            text: `"You Attended at ${this.now()}!"`,
+            text: `"${name} Attended at ${this.now()}!"`,
             icon: "warning",
             button: "Okay!",
           });
@@ -95,14 +94,14 @@ export default {
         if (this.now() < start) {
           swal({
             title: "On Time!",
-            text: `You Attended at ${this.now()}!`,
+            text: `${name} Attended at ${this.now()}!`,
             icon: "success",
             button: "Okay!",
           });
         } else {
           swal({
             title: "Late!",
-            text: `"You Attended at ${this.now()}!"`,
+            text: `"${name} Attended at ${this.now()}!"`,
             icon: "warning",
             button: "Okay!",
           });
@@ -128,7 +127,7 @@ export default {
           // };
           this.getResult = this.fortmatResponse(result);
 
-          this.AttendanceSuccess(result.data.id_karyawan, result.data.shift);
+          this.AttendanceSuccess(result.data.nama_karyawan, result.data.shift);
           console.log(this.getTime());
           this.id = "";
         } catch (err) {

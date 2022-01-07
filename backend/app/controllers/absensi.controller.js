@@ -9,6 +9,9 @@ exports.findAll = (req, res) => {};
 // Find a single with a id
 exports.findOne = (req, res) => {};
 
+// Find a single with a id
+exports.findDate = (req, res) => {};
+
 // find all published
 exports.findAllPublished = (req, res) => {};
 
@@ -98,6 +101,22 @@ exports.findAllPublished = (req, res) => {
 
 exports.findOne = (req, res) => {
   Absensi.findById(req.params.id, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found absensi with id ${req.params.id}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving absensi with id " + req.params.id,
+        });
+      }
+    } else res.send(data);
+  });
+};
+
+exports.findDate = (req, res) => {
+  Absensi.findByDate(req.params.id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({

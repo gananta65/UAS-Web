@@ -5,6 +5,9 @@ class AttendanceData {
     return http.get("/absensi");
   }
 
+  getByDate(id) {
+    return http.get(`/absensi/date/${id}`);
+  }
   get(id) {
     return http.get(`/absensi/${id}`);
   }

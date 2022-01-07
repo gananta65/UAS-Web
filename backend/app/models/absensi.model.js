@@ -1,7 +1,7 @@
 const sql = require("./db.js");
 
 // constructor
-const Absensi = function(absensi) {
+const Absensi = function (absensi) {
   this.id_absensi = absensi.id_absensi;
   this.id_karyawan = absensi.id_karyawan;
   this.tanggal = absensi.tanggal;
@@ -42,6 +42,29 @@ Absensi.findById = (id, result) => {
   });
 };
 
+Absensi.findByDate = (id, result) => {
+  let date = new Date().toISOString().slice(0, 10);
+  sql.query(
+    `SELECT * FROM absensi WHERE id_karyawan = ${id} AND tanggal = ${date}`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+
+      if (res.length) {
+        console.log("found absensi: ", res[0]);
+        result(null, res[0]);
+        return;
+      }
+
+      // not found admin with the id
+      result({ kind: "not_found" }, null);
+    }
+  );
+};
+
 Absensi.getAll = (id_absensi, result) => {
   let query = "SELECT * FROM absensi";
 
@@ -61,7 +84,7 @@ Absensi.getAll = (id_absensi, result) => {
   });
 };
 
-Absensi.getAllPublished = result => {
+Absensi.getAllPublished = (result) => {
   sql.query("SELECT * FROM absensi WHERE published=true", (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -76,8 +99,15 @@ Absensi.getAllPublished = result => {
 
 Absensi.updateById = (id, absensi, result) => {
   sql.query(
-    "UPDATE absensi SET id_karyawan = ?, tanggal = ?, jam = ?, reason = ?, status = ? WHERE id_absensi = " + id,
-    [absensi.id_karyawan, absensi.tanggal, absensi.jam, absensi.reason, absensi.status],
+    "UPDATE absensi SET id_karyawan = ?, tanggal = ?, jam = ?, reason = ?, status = ? WHERE id_absensi = " +
+      id,
+    [
+      absensi.id_karyawan,
+      absensi.tanggal,
+      absensi.jam,
+      absensi.reason,
+      absensi.status,
+    ],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -110,13 +140,12 @@ Absensi.remove = (id, result) => {
       return;
     }
 
-    
     console.log("deleted absensi with id: ", id);
     result(null, res);
   });
 };
 
-Absensi.removeAll = result => {
+Absensi.removeAll = (result) => {
   sql.query("DELETE FROM absensi", (err, res) => {
     if (err) {
       console.log("error: ", err);

@@ -30,6 +30,7 @@
 <script>
 import Card from "@/components/Card.vue";
 import EmployeeServices from "../services/EmployeeServices.js";
+import AttendanceServices from "../services/AttendanceServices.js";
 import swal from "sweetalert";
 
 export default {
@@ -54,6 +55,38 @@ export default {
       var today = new Date();
       return today;
     },
+    async isDoubleAttended() {
+      try {
+        const res = await AttendanceServices.getByDate(`${id}`);
+        const result = {
+          status: res.status + "-" + res.statusText,
+          headers: res.headers,
+          data: res.data,
+        };
+        // const result = {
+        //   data: res.data,
+        //   status: res.status,
+        //   statusText: res.statusText,
+        //   headers: res.headers,
+        //   config: res.config,
+        // };
+        this.getResult = this.fortmatResponse(result);
+
+        this.AttendanceSuccess(result.data.nama_karyawan, result.data.shift);
+        console.log(this.isDoubleAttended());
+        this.id = "";
+      } catch (err) {
+        this.getResult = this.fortmatResponse(err.response?.data) || err;
+        this.AttendanceFailed();
+        console.log(err);
+        this.id = "";
+      }
+    },
+    timeFormat(time) {
+      var p;
+      p = `${time.getHours()}:${time.getMinutes()}`;
+      return p;
+    },
     onlyNumber($event) {
       //console.log($event.keyCode); //keyCodes value
       let keyCode = $event.keyCode ? $event.keyCode : $event.which;
@@ -71,37 +104,37 @@ export default {
       var start = new Date();
       var end = new Date();
       if (shift == "malam") {
-        start.setHours(19, 0, 0);
-        end.setHours(20, 0, 0);
+        start.setHours(19, 10, 0);
+        end.setHours(20, 10, 0);
         if (this.now() < start) {
           swal({
-            title: "On Time!",
-            text: `${name} Attended at ${this.now()}!`,
+            title: `Passed! (schedule at ${this.timeFormat(start)})`,
+            text: `${name} Attended at ${this.timeFormat(this.now())}!`,
             icon: "success",
             button: "Okay!",
           });
         } else {
           swal({
-            title: "Late!",
-            text: `"${name} Attended at ${this.now()}!"`,
+            title: `Late! (schedule at ${this.timeFormat(start)})`,
+            text: `${name} Attended at ${this.timeFormat(this.now())}!`,
             icon: "warning",
             button: "Okay!",
           });
         }
       } else {
-        start.setHours(7, 0, 0);
-        end.setHours(13, 0, 0);
+        start.setHours(7, 10, 0);
+        end.setHours(13, 10, 0);
         if (this.now() < start) {
           swal({
-            title: "On Time!",
-            text: `${name} Attended at ${this.now()}!`,
+            title: `Passed! (schedule at ${this.timeFormat(start)})`,
+            text: `${name} Attended at ${this.timeFormat(this.now())}!`,
             icon: "success",
             button: "Okay!",
           });
         } else {
           swal({
-            title: "Late!",
-            text: `"${name} Attended at ${this.now()}!"`,
+            title: `Late! (schedule at ${this.timeFormat(start)})`,
+            text: `${name} Attended at ${this.timeFormat(this.now())}!`,
             icon: "warning",
             button: "Okay!",
           });
@@ -128,10 +161,11 @@ export default {
           this.getResult = this.fortmatResponse(result);
 
           this.AttendanceSuccess(result.data.nama_karyawan, result.data.shift);
-          console.log(this.getTime());
+          console.log(this.isDoubleAttended());
           this.id = "";
         } catch (err) {
           this.getResult = this.fortmatResponse(err.response?.data) || err;
+          this.AttendanceFailed();
           console.log(err);
           this.id = "";
         }

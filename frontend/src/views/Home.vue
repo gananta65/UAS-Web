@@ -38,13 +38,7 @@ export default {
   data() {
     return {
       id: "",
-      attendance: {
-        id_karyawan: "",
-        tanggal: "",
-        jam: "",
-        reason: "",
-        status: "",
-      },
+      isAttended: null,
     };
   },
   methods: {
@@ -55,7 +49,22 @@ export default {
       var today = new Date();
       return today;
     },
-    isDoubleAttended() {},
+    async getAttendance() {
+      const id = this.id;
+      try {
+        // const res = await instance.get(`/tutorials?title=${title}`);
+        const res = await AttendanceServices.getByDate(id);
+        const result = {
+          status: res.status + "-" + res.statusText,
+          headers: res.headers,
+          data: res.data,
+        };
+
+        this.isAttended = res.data.count;
+      } catch (err) {
+        this.isAttended = this.fortmatResponse(err.response?.data) || err;
+      }
+    },
     timeFormat(time) {
       var p;
       p = `${time.getHours()}:${time.getMinutes()}`;
@@ -123,6 +132,7 @@ export default {
     async submitForm() {
       const id = this.id;
       if (id) {
+        this.getAttendance();
         try {
           const res = await EmployeeServices.get(`${id}`);
           const result = {
@@ -135,12 +145,22 @@ export default {
           //   headers: res.headers,
           //   config: res.config,
           // };
-          this.AttendanceSuccess(result.data.nama_karyawan, result.data.shift);
+          if (this.attended !== null) {
+            if (this.isAttended == 0) {
+              this.AttendanceSuccess(
+                result.data.nama_karyawan,
+                result.data.shift
+              );
+            } else {
+              this.AttendanceExist();
+            }
+          }
+          console.log(this.isAttended);
           this.id = "";
         } catch (err) {
           this.getResult = this.fortmatResponse(err.response?.data) || err;
           if (err.response && err.response.status === 404) {
-            console.clear();
+            // console.clear();
           }
           this.AttendanceFailed();
           this.id = "";

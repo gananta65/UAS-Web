@@ -77,12 +77,7 @@ export default {
     async getAttendance() {
       const id = this.id;
       try {
-        // const res = await instance.get(`/tutorials?title=${title}`);
         const res = await AttendanceServices.getByDate(id);
-        const result = {
-          data: res.data,
-        };
-
         this.isAttended = res.data.count;
       } catch (err) {
         this.isAttended = this.fortmatResponse(err.response?.data) || err;

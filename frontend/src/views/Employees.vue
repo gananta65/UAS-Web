@@ -7,7 +7,7 @@
       >
     </template>
     <template v-slot:search>
-      <label for="cari" class="form-label">Search :</label>
+      <label for="cari" class="form-label">Search:</label>
       <input type="text" class="form-control-sm mb-2" name="cari" id="cari" />
     </template>
     <template v-slot:table>
@@ -21,10 +21,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Gananta</td>
-            <td>Morning</td>
+          <tr v-for="(res, index) in result" :key="res.id">
+            <td>{{ index + 1 }}</td>
+            <td>{{ res.nama_karyawan }}</td>
+            <td>{{ res.shift }}</td>
             <td>
               <router-link to="/employees/edit" class="btn btn-outline-primary"
                 >Edit</router-link
@@ -44,8 +44,30 @@
 
 <script>
 import TableTemplate from "@/components/TableTemplate.vue";
+import EmployeeServices from "../services/EmployeeServices.js";
 export default {
   components: { TableTemplate },
+  data() {
+    return {
+      result: null,
+    };
+  },
+  methods: {
+    async getAllData() {
+      try {
+        const res = await EmployeeServices.getAll();
+
+        this.result = res.data;
+
+        console.log(this.result);
+      } catch (err) {
+        this.getResult = this.fortmatResponse(err.response?.data) || err;
+      }
+    },
+  },
+  mounted() {
+    this.getAllData();
+  },
 };
 </script>
 

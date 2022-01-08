@@ -39,11 +39,36 @@ export default {
     return {
       id: "",
       isAttended: null,
+      attendance: {
+        id_absensi: null,
+        id_karyawan: "",
+        tanggal: "",
+        jam: "",
+        reason: "",
+        status: "",
+      },
     };
   },
   methods: {
     fortmatResponse(res) {
       return JSON.stringify(res, null, 2);
+    },
+    async addAttendance(status) {
+      // POST request using axios with async/await
+      const id = this.id;
+      let today = new Date();
+      let tgl = today.toISOString().slice(0, 10);
+      let jm = this.timeFormat(today);
+      const attendance = {
+        id_absensi: null,
+        id_karyawan: id,
+        tanggal: tgl,
+        jam: jm,
+        reason: null,
+        status: status,
+      };
+      const response = await AttendanceServices.create(attendance);
+      this.articleId = response.data.id;
     },
     now() {
       var today = new Date();
@@ -55,8 +80,6 @@ export default {
         // const res = await instance.get(`/tutorials?title=${title}`);
         const res = await AttendanceServices.getByDate(id);
         const result = {
-          status: res.status + "-" + res.statusText,
-          headers: res.headers,
           data: res.data,
         };
 
@@ -95,6 +118,7 @@ export default {
         start.setHours(19, 10, 0);
         end.setHours(20, 10, 0);
         if (this.now() < start) {
+          this.addAttendance("On Time");
           swal({
             title: `Passed! (schedule at ${this.timeFormat(start)})`,
             text: `${name} Attended at ${this.timeFormat(this.now())}!`,
@@ -102,6 +126,7 @@ export default {
             button: "Okay!",
           });
         } else {
+          this.addAttendance("Late");
           swal({
             title: `Late! (schedule at ${this.timeFormat(start)})`,
             text: `${name} Attended at ${this.timeFormat(this.now())}!`,
@@ -113,6 +138,7 @@ export default {
         start.setHours(7, 10, 0);
         end.setHours(13, 10, 0);
         if (this.now() < start) {
+          this.addAttendance("On Time");
           swal({
             title: `Passed! (schedule at ${this.timeFormat(start)})`,
             text: `${name} Attended at ${this.timeFormat(this.now())}!`,
@@ -120,6 +146,7 @@ export default {
             button: "Okay!",
           });
         } else {
+          this.addAttendance("Late");
           swal({
             title: `Late! (schedule at ${this.timeFormat(start)})`,
             text: `${name} Attended at ${this.timeFormat(this.now())}!`,

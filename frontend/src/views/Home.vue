@@ -56,9 +56,8 @@ export default {
     async addAttendance(status) {
       // POST request using axios with async/await
       const id = this.id;
-      let today = new Date();
-      let tgl = today.toISOString().slice(0, 10);
-      let jm = this.timeFormat(today);
+      let tgl = this.now().toISOString().slice(0, 10);
+      let jm = this.timeFormat(this.now());
       const attendance = {
         id_absensi: null,
         id_karyawan: id,
@@ -85,7 +84,7 @@ export default {
     },
     timeFormat(time) {
       var p;
-      p = `${time.getHours()}:${time.getMinutes()}`;
+      p = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`;
       return p;
     },
     onlyNumber($event) {
@@ -102,6 +101,7 @@ export default {
       });
     },
     AttendanceExist() {
+      console.log(this.timeFormat(this.now()));
       swal({
         text: `Employee with id ${this.id} already Attended`,
       });
@@ -109,7 +109,7 @@ export default {
     AttendanceSuccess(name, shift) {
       var start = new Date();
       var end = new Date();
-      if (shift == "malam") {
+      if (shift == "Malam") {
         start.setHours(19, 10, 0);
         end.setHours(20, 10, 0);
         if (this.now() < start) {

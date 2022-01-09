@@ -59,7 +59,7 @@ exports.create = (req, res) => {
     id_absensi: req.body.id_absensi,
     id_karyawan: req.body.id_karyawan,
     tanggal: req.body.tanggal,
-    jam: req.body.tanggal,
+    jam: req.body.jam,
     reason: req.body.reason,
     status: req.body.status || false,
   });

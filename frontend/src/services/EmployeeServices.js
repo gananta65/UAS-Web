@@ -6,7 +6,7 @@ class EmployeeData {
   }
 
   get(id) {
-    return http.get(`/karyawan/${id}`);
+    return http.get(`/karyawan/get/${id}`);
   }
 
   create(data) {
@@ -25,8 +25,8 @@ class EmployeeData {
     return http.delete(`/karyawan`);
   }
 
-  findByTitle(title) {
-    return http.get(`/karyawan?title=${title}`);
+  findByName(id) {
+    return http.get(`/karyawan/s/${id}`);
   }
 }
 

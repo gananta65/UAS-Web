@@ -8,7 +8,14 @@
     </template>
     <template v-slot:search>
       <label for="cari" class="form-label">Search:</label>
-      <input type="text" class="form-control-sm mb-2" name="cari" id="cari" />
+      <input
+        type="text"
+        v-model="search"
+        class="form-control-sm mb-2"
+        v-on:keyup.enter="getByTitle"
+        name="cari"
+        id="cari"
+      />
     </template>
     <template v-slot:table>
       <table id="" class="table table-bordered table-hover">
@@ -26,7 +33,9 @@
             <td>{{ res.nama_karyawan }}</td>
             <td>{{ res.shift }}</td>
             <td>
-              <router-link to="/employees/edit" class="btn btn-outline-primary"
+              <router-link
+                :to="{ name: 'EmployeeEdit', params: { id: res.id_karyawan } }"
+                class="btn btn-outline-primary"
                 >Edit</router-link
               >
               <router-link
@@ -50,9 +59,15 @@ export default {
   data() {
     return {
       result: null,
+      search: "",
     };
   },
   methods: {
+    checkSearch() {
+      if (this.search == "") {
+        this.getAllData();
+      }
+    },
     async getAllData() {
       try {
         const res = await EmployeeServices.getAll();
@@ -61,10 +76,22 @@ export default {
 
         console.log(this.result);
       } catch (err) {
-        this.getResult = this.fortmatResponse(err.response?.data) || err;
+        console.log(err);
+      }
+    },
+    async getByTitle() {
+      try {
+        const res = await EmployeeServices.findByName(this.search);
+
+        this.result = res.data;
+
+        console.log(this.result);
+      } catch (err) {
+        this.getAllData();
       }
     },
   },
+
   mounted() {
     this.getAllData();
   },

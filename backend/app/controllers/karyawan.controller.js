@@ -65,6 +65,22 @@ exports.findAll = (req, res) => {
   });
 };
 
+exports.findByName = (req, res) => {
+  Karyawan.findByName(req.params.id, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found karyawan with id ${req.params.id}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving karyawan with id " + req.params.id,
+        });
+      }
+    } else res.send(data);
+  });
+};
+
 exports.findAllPublished = (req, res) => {
   Karyawan.getAllPublished((err, data) => {
     if (err)

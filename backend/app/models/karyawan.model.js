@@ -21,31 +21,51 @@ Karyawan.create = (newKaryawan, result) => {
 };
 
 Karyawan.findById = (id, result) => {
-  sql.query(`SELECT * FROM karyawan WHERE id_karyawan = ${id}`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
+  sql.query(
+    `SELECT * FROM karyawan WHERE id_karyawan = '${id}'`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
 
-    if (res.length) {
-      console.log("found karyawan: ", res[0]);
-      result(null, res[0]);
-      return;
-    }
+      if (res.length) {
+        console.log("found karyawan: ", res[0]);
+        result(null, res[0]);
+        return;
+      }
 
-    // not found admin with the id
-    result({ kind: "not_found" }, null);
-  });
+      // not found admin with the id
+      result({ kind: "not_found" }, null);
+    }
+  );
 };
 
-Karyawan.getAll = (id_admin, result) => {
+Karyawan.findByName = (id, result) => {
+  sql.query(
+    `SELECT * FROM karyawan WHERE nama_karyawan LIKE '%${id}%'`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+
+      if (res.length) {
+        console.log("found karyawan: ", res);
+        result(null, res);
+        return;
+      }
+
+      // not found admin with the id
+      result({ kind: "not_found" }, null);
+    }
+  );
+};
+
+Karyawan.getAll = (id_karyawan, result) => {
   let query = "SELECT * FROM karyawan";
-
-  if (id_admin) {
-    query += ` WHERE title LIKE '%${id_karyawan}%'`;
-  }
-
   sql.query(query, (err, res) => {
     if (err) {
       console.log("error: ", err);

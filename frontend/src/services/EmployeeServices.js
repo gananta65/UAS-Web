@@ -2,7 +2,7 @@ import http from "../http-common";
 
 class EmployeeData {
   getAll() {
-    return http.get("/karyawan");
+    return http.get("/karyawan/");
   }
 
   get(id) {

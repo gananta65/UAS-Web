@@ -12,7 +12,7 @@
         type="text"
         v-model="search"
         class="form-control-sm mb-2"
-        v-on:keyup.enter="getByTitle"
+        @input="getByTitle"
         name="cari"
         id="cari"
       />
@@ -28,8 +28,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(res, index) in result" :key="res.id">
-            <td>{{ index + 1 }}</td>
+          <tr v-for="res in result" :key="res.id">
+            <td>{{ res.id_karyawan }}</td>
             <td>{{ res.nama_karyawan }}</td>
             <td>{{ res.shift }}</td>
             <td>
@@ -83,11 +83,15 @@ export default {
       try {
         const res = await EmployeeServices.findByName(this.search);
 
-        this.result = res.data;
-
-        console.log(this.result);
+        if (res.status == 200) {
+          this.result = res.data;
+        } else {
+          this.result = null;
+        }
       } catch (err) {
-        this.getAllData();
+        this.result = null;
+        this.checkSearch();
+        console.log(err);
       }
     },
   },

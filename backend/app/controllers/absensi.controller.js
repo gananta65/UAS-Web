@@ -88,6 +88,18 @@ exports.findAll = (req, res) => {
   });
 };
 
+exports.getToday = (req, res) => {
+  const id_absensi = req.query.id_absensi;
+
+  Absensi.getToday(id_absensi, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving absensi.",
+      });
+    else res.send(data);
+  });
+};
+
 exports.findAllPublished = (req, res) => {
   Absensi.getAllPublished((err, data) => {
     if (err)
@@ -101,6 +113,22 @@ exports.findAllPublished = (req, res) => {
 
 exports.findOne = (req, res) => {
   Absensi.findById(req.params.id, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found absensi with id ${req.params.id}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving absensi with id " + req.params.id,
+        });
+      }
+    } else res.send(data);
+  });
+};
+
+exports.getTodayById = (req, res) => {
+  Absensi.getTodayById(req.params.id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({

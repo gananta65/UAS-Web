@@ -5,11 +5,15 @@ class AttendanceData {
     return http.get("/absensi");
   }
 
+  getToday() {
+    return http.get("/dashboard");
+  }
+
   getByDate(id) {
     return http.get(`/absensi/date/${id}`);
   }
-  get(id) {
-    return http.get(`/absensi/${id}`);
+  searchById(id) {
+    return http.get(`/dashboard/${id}`);
   }
 
   create(data) {

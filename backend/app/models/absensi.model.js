@@ -68,7 +68,45 @@ Absensi.getAll = (id_absensi, result) => {
   let query = "SELECT * FROM absensi";
 
   if (id_absensi) {
-    query += ` WHERE title LIKE '%${id_absensi}%'`;
+    query += ` WHERE id_absensi LIKE '%${id_absensi}%'`;
+  }
+
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("absensi: ", res);
+    result(null, res);
+  });
+};
+
+Absensi.getToday = (id_absensi, result) => {
+  let query =
+    "SELECT absensi.*,karyawan.nama_karyawan,karyawan.shift FROM absensi,karyawan WHERE absensi.tanggal = CURDATE() AND absensi.id_karyawan = karyawan.id_karyawan";
+
+  if (id_absensi) {
+    query += ` AND absensi.id_karyawan = '${id_absensi}'`;
+  }
+
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("absensi: ", res);
+    result(null, res);
+  });
+};
+
+Absensi.getTodayById = (id_absensi, result) => {
+  let query = `SELECT absensi.*,karyawan.nama_karyawan,karyawan.shift FROM absensi,karyawan WHERE absensi.tanggal = CURDATE() AND absensi.id_karyawan = karyawan.id_karyawan AND absensi.id_karyawan = '${id_absensi}'`;
+
+  if (id_absensi) {
   }
 
   sql.query(query, (err, res) => {

@@ -9,11 +9,12 @@ module.exports = (app) => {
   // Retrieve all
   router.get("/absensi", absensi.findAll);
 
+  router.get("/dashboard/:id", absensi.getTodayById);
+
+  router.get("/dashboard/", absensi.getToday);
+
   // Retrieve all published
   router.get("/published", absensi.findAllPublished);
-
-  // Retrieve a single  with id
-  router.get("/absensi/:id", absensi.findOne);
 
   // Retrieve a single  with id
   router.get("/absensi/date/:id", absensi.findDate);

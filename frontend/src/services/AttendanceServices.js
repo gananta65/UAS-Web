@@ -12,8 +12,14 @@ class AttendanceData {
   getByDate(id) {
     return http.get(`/absensi/date/${id}`);
   }
+  getHistoryByDate(id) {
+    return http.get(`/date/${id}`);
+  }
   searchById(id) {
     return http.get(`/dashboard/${id}`);
+  }
+  getAttendanceById(id) {
+    return http.get(`/history/${id}`);
   }
 
   create(data) {

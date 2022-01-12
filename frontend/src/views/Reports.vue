@@ -3,10 +3,10 @@
     <template v-slot:title> Reports </template>
     <template v-slot:button-add> </template>
     <template v-slot:search>
-      <label for="cari" class="form-label">Date from :</label>
-      <input type="text" class="form-control-sm mb-2" name="start" id="start" />
-      <label for="cari" class="form-label">To :</label>
-      <input type="text" class="form-control-sm mb-2" name="end" id="end" />
+      <label for="cari" class="form-label">Date from</label>
+      <input type="date" class="form-control-sm mb-2" name="start" id="start" />
+      <label for="cari" class="form-label">To</label>
+      <input type="date" class="form-control-sm mb-2" name="end" id="end" />
     </template>
     <template v-slot:table>
       <table id="" class="table table-bordered table-hover">

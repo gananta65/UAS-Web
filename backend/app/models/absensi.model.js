@@ -121,6 +121,24 @@ Absensi.getTodayById = (id_absensi, result) => {
   });
 };
 
+Absensi.getHistoryById = (id_absensi, result) => {
+  let query = `SELECT absensi.*,karyawan.nama_karyawan,karyawan.shift FROM absensi,karyawan WHERE absensi.id_karyawan = karyawan.id_karyawan AND absensi.id_karyawan = '${id_absensi}'`;
+
+  if (id_absensi) {
+  }
+
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("absensi: ", res);
+    result(null, res);
+  });
+};
+
 Absensi.getAllPublished = (result) => {
   sql.query("SELECT * FROM absensi WHERE published=true", (err, res) => {
     if (err) {

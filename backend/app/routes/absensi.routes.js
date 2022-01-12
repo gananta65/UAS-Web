@@ -11,6 +11,8 @@ module.exports = (app) => {
 
   router.get("/dashboard/:id", absensi.getTodayById);
 
+  router.get("/history/:id", absensi.getHistoryById);
+
   router.get("/dashboard/", absensi.getToday);
 
   // Retrieve all published

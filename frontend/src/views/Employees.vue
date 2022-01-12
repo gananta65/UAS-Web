@@ -39,7 +39,10 @@
                 >Edit</router-link
               >
               <router-link
-                to="/employees/history"
+                :to="{
+                  name: 'EmployeeHistory',
+                  params: { id: res.id_karyawan },
+                }"
                 class="btn btn-outline-success"
                 >History</router-link
               >

@@ -83,7 +83,6 @@ export default {
       }).then((willDelete) => {
         if (willDelete) {
           this.postReason(id, data);
-          this.$router.go(0);
         }
       });
     },

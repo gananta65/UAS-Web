@@ -1,6 +1,8 @@
 <template>
   <TableTemplate>
-    <template v-slot:title>History{{ search }}</template>
+    <template v-slot:title
+      >History of ID : {{ this.$route.params.id }}</template
+    >
     <template v-slot:search>
       <label for="cari" class="form-label">Search by Date:</label>
       <input
@@ -87,9 +89,7 @@ export default {
       }).then((willDelete) => {
         if (willDelete) {
           this.postReason(id, data);
-          this.$router.go(0);
         } else {
-          this.$router.go(0);
         }
       });
     },
@@ -120,7 +120,6 @@ export default {
           const res = await AttendanceServices.update(id, data);
           if (res) {
             this.inputSuccess();
-            this.$router.push("/employees");
             console.log("success!");
           }
         } catch (err) {

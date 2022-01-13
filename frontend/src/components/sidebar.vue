@@ -33,7 +33,7 @@
           </router-link>
         </li>
         <li>
-          <router-link to="/" class="nav-link text-white">
+          <router-link to="/admin" @click="clear" class="nav-link text-white">
             <svg class="bi me-2" width="16" height="16">
               <use xlink:href="#people-circle" />
             </svg>
@@ -47,7 +47,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    clear() {
+      localStorage.clear();
+    },
+  },
+};
 </script>
 
 <style scoped>

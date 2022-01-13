@@ -4,12 +4,16 @@
       <Card>
         <template v-slot:login>
           <h5 class="card-title text-center">Admin Login</h5>
-          <form class="form-group d-flex justify-content-center">
+          <form
+            @submit.prevent="login"
+            class="form-group d-flex justify-content-center"
+          >
             <div class="form-group">
               <label for="username">Username</label>
               <input
                 type="text"
                 class="form-control"
+                v-model="username"
                 name="username"
                 required
               />
@@ -18,6 +22,7 @@
               <input
                 type="password"
                 class="form-control"
+                v-model="password"
                 name="password"
                 required
               />
@@ -33,14 +38,43 @@
 
 <script>
 import Card from "@/components/Card.vue";
+import Swal from "sweetalert";
+import axios from "axios";
 
 export default {
   components: { Card },
   data() {
     return {
-      action: "abc",
-      method: "post",
+      username: "",
+      password: "",
     };
+  },
+  methods: {
+    async login() {
+      try {
+        const res = await axios.get(
+          `http://localhost:8080/api/admin/login?username=${this.username}&password=${this.password}`
+        );
+        if (res.data) {
+          localStorage.setItem("login", true);
+          localStorage.setItem("id", res.data.id);
+          localStorage.setItem("level", "admin");
+          if (res.data.level === "admin") {
+            this.$router.push("/kasir");
+          } else {
+            this.$router.push("/dashboard");
+          }
+        }
+      } catch (err) {
+        console.clear();
+        Swal({
+          title: "Error!",
+          text: "Username atau password salah!",
+          icon: "error",
+          button: "Confirm",
+        });
+      }
+    },
   },
 };
 </script>

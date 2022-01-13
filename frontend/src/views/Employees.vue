@@ -7,7 +7,7 @@
       >
     </template>
     <template v-slot:search>
-      <label for="cari" class="form-label">Search:</label>
+      <label for="cari" class="form-label">Search By Name:</label>
       <input
         type="text"
         v-model="search"
@@ -21,7 +21,7 @@
       <table id="" class="table table-bordered table-hover">
         <thead>
           <tr>
-            <th>No</th>
+            <th>ID</th>
             <th>Name</th>
             <th>Shift</th>
             <th>Action</th>

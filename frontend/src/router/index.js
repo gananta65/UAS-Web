@@ -56,4 +56,13 @@ const router = createRouter({
   routes,
 });
 
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = JSON.parse(localStorage.getItem("login"));
+  if (to.name !== "Admin" && to.name !== "Home" && !isAuthenticated) {
+    next({ name: "Admin" });
+  } else if (to.name === "Admin" && isAuthenticated) {
+    next({ name: "Dashboard" });
+  } else next();
+});
+
 export default router;

@@ -1,7 +1,7 @@
 const sql = require("./db.js");
 
 // constructor
-const Admin = function(admin) {
+const Admin = function (admin) {
   this.id_admin = admin.id_admin;
   this.nama_admin = admin.nama_admin;
   this.username = admin.username;
@@ -22,22 +22,25 @@ Admin.create = (newAdmin, result) => {
 };
 
 Admin.findById = (id, result) => {
-  sql.query(`SELECT * FROM admin WHERE id = ${id}`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
+  sql.query(
+    `SELECT * FROM admin WHERE username = '${id.username}' AND password = '${id.password}'`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
 
-    if (res.length) {
-      console.log("found admin: ", res[0]);
-      result(null, res[0]);
-      return;
-    }
+      if (res.length) {
+        console.log("found admin: ", res[0]);
+        result(null, res[0]);
+        return;
+      }
 
-    // not found admin with the id
-    result({ kind: "not_found" }, null);
-  });
+      // not found admin with the id
+      result({ kind: "not_found" }, null);
+    }
+  );
 };
 
 Admin.getAll = (id_admin, result) => {
@@ -59,7 +62,7 @@ Admin.getAll = (id_admin, result) => {
   });
 };
 
-Admin.getAllPublished = result => {
+Admin.getAllPublished = (result) => {
   sql.query("SELECT * FROM admin WHERE published=true", (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -74,7 +77,8 @@ Admin.getAllPublished = result => {
 
 Admin.updateById = (id, admin, result) => {
   sql.query(
-    "UPDATE admin SET nama_admin = ?, username = ?, password = ? WHERE id_admin = " + id,
+    "UPDATE admin SET nama_admin = ?, username = ?, password = ? WHERE id_admin = " +
+      id,
     [admin.nama_admin, admin.username, admin.password],
     (err, res) => {
       if (err) {
@@ -108,13 +112,12 @@ Admin.remove = (id, result) => {
       return;
     }
 
-    
     console.log("deleted tutorial with id: ", id);
     result(null, res);
   });
 };
 
-Admin.removeAll = result => {
+Admin.removeAll = (result) => {
   sql.query("DELETE FROM admin", (err, res) => {
     if (err) {
       console.log("error: ", err);

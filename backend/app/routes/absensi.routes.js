@@ -13,6 +13,10 @@ module.exports = (app) => {
 
   router.get("/history/:id", absensi.getHistoryById);
 
+  router.get("/report/:id", absensi.getReportById);
+
+  router.get("/reportByDate", absensi.getReportByDate);
+
   router.get("/dashboard/", absensi.getToday);
 
   // Retrieve all published

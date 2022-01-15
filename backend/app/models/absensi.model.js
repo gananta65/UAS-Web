@@ -123,10 +123,38 @@ Absensi.getTodayById = (id_absensi, result) => {
 
 Absensi.getHistoryById = (id_absensi, result) => {
   let query = `SELECT absensi.*,karyawan.nama_karyawan,karyawan.shift FROM absensi,karyawan WHERE absensi.id_karyawan = karyawan.id_karyawan AND absensi.id_karyawan = '${id_absensi}'`;
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
 
-  if (id_absensi) {
-  }
+    console.log("absensi: ", res);
+    result(null, res);
+  });
+};
 
+Absensi.getReportById = (id_absensi, result) => {
+  let query = `select *,(select COUNT(*) from absensi where id_karyawan = '${id_absensi}' AND absensi.status = 'On Time') AS ontime,
+  (select COUNT(*) from absensi where id_karyawan = '${id_absensi}' AND absensi.status = 'Late') AS late from karyawan where id_karyawan = '${id_absensi}'`;
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("absensi: ", res);
+    result(null, res);
+  });
+};
+
+Absensi.getReportByDate = (id, result) => {
+  let query = `select *,
+  (select COUNT(*) from absensi where id_karyawan = '${id.karyawan}' AND absensi.status = 'On Time' AND (absensi.tanggal BETWEEN '${id.awal}' AND '${id.akhir}')) AS ontime,
+  (select COUNT(*) from absensi where id_karyawan = '${id.karyawan}' AND absensi.status = 'LATE' AND (absensi.tanggal BETWEEN '${id.awal}' AND '${id.akhir}')) AS late
+  from karyawan where id_karyawan = '${id.karyawan}'`;
   sql.query(query, (err, res) => {
     if (err) {
       console.log("error: ", err);

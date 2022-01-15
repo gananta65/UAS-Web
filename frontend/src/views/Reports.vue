@@ -99,9 +99,6 @@ export default {
         console.log(err);
       }
     },
-    hapusResult() {
-      this.result = [];
-    },
     async getReport(id) {
       try {
         let array;
@@ -126,9 +123,12 @@ export default {
       }
     },
     checkSearch() {
-      if ((this.tglawal = "") || (this.tglakhir = "")) {
-        this.getAllReport();
-      }
+      this.result = [];
+      this.totalontime = 0;
+      this.totallate = 0;
+      this.id_karyawan = [];
+      this.getAllData();
+      //this.$router.go(0);
     },
     async getReportByDate(id) {
       try {

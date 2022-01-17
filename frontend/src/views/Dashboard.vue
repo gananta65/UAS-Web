@@ -19,6 +19,7 @@
             <th>ID</th>
             <th>Name</th>
             <th>Shift</th>
+            <th>Time</th>
             <th>Status</th>
             <th>Reason</th>
             <th>Action</th>
@@ -29,6 +30,7 @@
             <td>{{ res.id_karyawan }}</td>
             <td>{{ res.nama_karyawan }}</td>
             <td>{{ res.shift }}</td>
+            <td>{{ res.jam }}</td>
             <td>{{ res.status }}</td>
             <td>
               <input

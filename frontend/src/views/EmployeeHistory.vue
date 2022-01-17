@@ -28,6 +28,7 @@
         <thead>
           <tr>
             <th>Date</th>
+            <th>Time</th>
             <th>Status</th>
             <th>Reason</th>
             <th>Action</th>
@@ -38,6 +39,7 @@
             <td>
               {{ res.tanggal }}
             </td>
+            <td>{{ res.jam }}</td>
             <td>{{ res.status }}</td>
             <td>
               <input
